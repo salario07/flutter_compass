@@ -15,7 +15,15 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    namespace "com.hemanthraj.fluttercompassexample"
+    compileSdkVersion 34
+    ndkVersion "26.2.11394342"
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     lintOptions {
         disable 'InvalidPackage'
@@ -24,7 +32,7 @@ android {
     defaultConfig {
         applicationId "com.hemanthraj.fluttercompassexample"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
@@ -34,6 +42,11 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    dependencies {
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    }
+
 }
 
 flutter {

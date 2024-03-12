@@ -4,31 +4,54 @@ version '1.0-SNAPSHOT'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools:r8:8.2.47'
+        classpath 'com.android.tools.build:gradle:8.2.2'
     }
 }
 
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
+    if (project.android.hasProperty('namespace') ||
+            getGradle().getGradleVersion().substring(0, 1).toInteger() >= 8) {
+        namespace "com.hemanthraj.fluttercompass"
+    }
+
+    buildToolsVersion = "34.0.0"
+    compileSdkVersion 34
+    ndkVersion "26.2.11394342"
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/java"
+    }
 
     defaultConfig {
-        minSdkVersion 20
+        minSdkVersion 21
+        targetSdkVersion 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
+    }
+
+    dependencies {
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     }
 }
